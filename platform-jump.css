@@ -1,7 +1,9 @@
 body {
     text-align: center;
+    background: linear-gradient(to top, deepskyblue, lightskyblue) fixed;
 }
 
 #board {
-    background-image: url("backgroundColorForest.png");
+    background-image: url("backgroundCastles.png");
+    background-size: cover;
 }
