@@ -12,6 +12,9 @@ let bunnyY = boardHeight*6/7 - bunnyHeight/2;
 let bunnyImg;
 let bunnyImgJump;
 
+//physics
+let velocityX = 0;
+
 let bunny = {
     img : null,
     x : bunnyX,
@@ -38,10 +41,24 @@ window.onload = function () {
     bunnyImgJump.src = "./bunny2_jump.png";
 
     requestAnimationFrame(update);
+    document.addEventListener("keydown", moveBunny);
 }
 
 //game loop
 function update () {
     requestAnimationFrame(update);
+    context.clearRect(0, 0, board.width, board.height);
+
+    bunny.x += velocityX;
     context.drawImage(bunny.img, bunny.x, bunny.y, bunny.width, bunny.height);
 }
+
+function moveBunny(e) {
+    if (e.code === "ArrowRight" || e.code === "KeyD") {
+        velocityX = 5;
+    }
+    if (e.code === "ArrowLeft" || e.code === "KeyA") {
+        velocityX = -5;
+    }
+}
+
