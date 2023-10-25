@@ -33,4 +33,15 @@ window.onload = function () {
     bunnyImg.onload = function () {
         context.drawImage(bunny.img, bunny.x, bunny.y, bunny.width, bunny.height);
     }
+
+    bunnyImgJump = new Image();
+    bunnyImgJump.src = "./bunny2_jump.png";
+
+    requestAnimationFrame(update);
+}
+
+//game loop
+function update () {
+    requestAnimationFrame(update);
+    context.drawImage(bunny.img, bunny.x, bunny.y, bunny.width, bunny.height);
 }
