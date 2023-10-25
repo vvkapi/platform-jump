@@ -9,8 +9,8 @@ let bunnyWidth = 65;
 let bunnyHeight = 100;
 let bunnyX =  boardWidth/2 - bunnyWidth/2;
 let bunnyY = boardHeight*6/7 - bunnyHeight/2;
-let bunnyImg;
-let bunnyImgJump;
+let bunnyImgRight;
+let bunnyImgLeft;
 
 //physics
 let velocityX = 0;
@@ -30,15 +30,15 @@ window.onload = function () {
     context = board.getContext("2d");
 
     //load bunny
-    bunnyImg = new Image();
-    bunnyImg.src = "./bunny2_stand.png";
-    bunny.img = bunnyImg;
-    bunnyImg.onload = function () {
+    bunnyImgRight = new Image();
+    bunnyImgRight.src = "./bunny2_stand_right.png";
+    bunny.img = bunnyImgRight;
+    bunnyImgRight.onload = function () {
         context.drawImage(bunny.img, bunny.x, bunny.y, bunny.width, bunny.height);
     }
 
-    bunnyImgJump = new Image();
-    bunnyImgJump.src = "./bunny2_jump.png";
+    bunnyImgLeft = new Image();
+    bunnyImgLeft.src = "./bunny2_stand_left.png";
 
     requestAnimationFrame(update);
     document.addEventListener("keydown", moveBunny);
@@ -56,9 +56,11 @@ function update () {
 function moveBunny(e) {
     if (e.code === "ArrowRight" || e.code === "KeyD") {
         velocityX = 5;
+        bunny.img = bunnyImgRight;
     }
     if (e.code === "ArrowLeft" || e.code === "KeyA") {
         velocityX = -5;
+        bunny.img = bunnyImgLeft;
     }
 }
 
