@@ -49,7 +49,14 @@ function update () {
     requestAnimationFrame(update);
     context.clearRect(0, 0, board.width, board.height);
 
+    //bunny
     bunny.x += velocityX;
+    if (bunny.x > boardWidth) {
+        bunny.x = -bunnyWidth;
+    }
+    else if (bunny.x + bunnyWidth < 0) {
+        bunny.x = boardWidth;
+    }
     context.drawImage(bunny.img, bunny.x, bunny.y, bunny.width, bunny.height);
 }
 
@@ -63,4 +70,3 @@ function moveBunny(e) {
         bunny.img = bunnyImgLeft;
     }
 }
-
