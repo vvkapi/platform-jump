@@ -4,6 +4,6 @@ body {
 }
 
 #board {
-    background-image: url("backgroundCastles.png");
+    background-image: url("images/backgroundCastles.png");
     background-size: cover;
 }

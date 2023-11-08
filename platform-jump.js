@@ -31,14 +31,14 @@ window.onload = function () {
 
     //load bunny
     bunnyImgRight = new Image();
-    bunnyImgRight.src = "./bunny2_stand_right.png";
+    bunnyImgRight.src = "images/bunny2_stand_right.png";
     bunny.img = bunnyImgRight;
     bunnyImgRight.onload = function () {
         context.drawImage(bunny.img, bunny.x, bunny.y, bunny.width, bunny.height);
     }
 
     bunnyImgLeft = new Image();
-    bunnyImgLeft.src = "./bunny2_stand_left.png";
+    bunnyImgLeft.src = "images/bunny2_stand_left.png";
 
     requestAnimationFrame(update);
     document.addEventListener("keydown", moveBunny);
