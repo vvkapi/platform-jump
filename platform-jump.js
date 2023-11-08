@@ -15,6 +15,12 @@ let bunnyImgLeft;
 //physics
 let velocityX = 0;
 
+//platforms
+let platformArray = [];
+let platformWidth = 80;
+let platformHeight =  25;
+let platformImg;
+
 let bunny = {
     img : null,
     x : bunnyX,
@@ -29,7 +35,7 @@ window.onload = function () {
     board.height = boardHeight;
     context = board.getContext("2d");
 
-    //load bunny
+    //load images
     bunnyImgRight = new Image();
     bunnyImgRight.src = "images/bunny2_stand_right.png";
     bunny.img = bunnyImgRight;
@@ -40,6 +46,10 @@ window.onload = function () {
     bunnyImgLeft = new Image();
     bunnyImgLeft.src = "images/bunny2_stand_left.png";
 
+    platformImg = new Image();
+    platformImg.src = "images/ground_wood_small.png";
+
+    placePlatforms();
     requestAnimationFrame(update);
     document.addEventListener("keydown", moveBunny);
 }
@@ -58,6 +68,11 @@ function update () {
         bunny.x = boardWidth;
     }
     context.drawImage(bunny.img, bunny.x, bunny.y, bunny.width, bunny.height);
+
+    for (let i = 0; i < platformArray.length; i++) {
+        let platform = platformArray[i];
+        context.drawImage(platform.img, platform.x, platform.y, platform.width, platform.height);
+    }
 }
 
 function moveBunny(e) {
@@ -69,4 +84,19 @@ function moveBunny(e) {
         velocityX = -5;
         bunny.img = bunnyImgLeft;
     }
+}
+
+function placePlatforms() {
+    platformArray = [];
+
+    //starting platforms
+    let platform = {
+        img : platformImg,
+        x : boardWidth/2,
+        y : boardHeight - 50,
+        height : platformHeight,
+        width : platformWidth
+    }
+
+    platformArray.push(platform);
 }
