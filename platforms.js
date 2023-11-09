@@ -1,8 +1,6 @@
-let platformImg;
+export let platformImg;
 
-function drawPlatforms() {
+export function drawPlatforms() {
     platformImg = new Image();
     platformImg.src = "images/ground_wood_small.png";
 }
-
-export { drawPlatforms, platformImg};
