@@ -1,13 +1,13 @@
 import {boardHeight, boardWidth, context} from "./board.js";
 
-let bunnyWidth = 65;
+export let bunnyWidth = 65;
 let bunnyHeight = 100;
 let bunnyX =  boardWidth/2 - bunnyWidth/2;
 let bunnyY = boardHeight*6/7 - bunnyHeight/2;
-let bunnyImgRight;
-let bunnyImgLeft;
+export let bunnyImgRight;
+export let bunnyImgLeft;
 
-let bunny = {
+export let bunny = {
     img : null,
     x : bunnyX,
     y : bunnyY,
@@ -15,7 +15,7 @@ let bunny = {
     height : bunnyHeight
 }
 
-function drawBunny() {
+export function drawBunny() {
     bunnyImgRight = new Image();
     bunnyImgRight.src = "images/bunny2_stand_right.png";
     bunny.img = bunnyImgRight;
@@ -27,4 +27,6 @@ function drawBunny() {
     bunnyImgLeft.src = "images/bunny2_stand_left.png";
 }
 
-export { bunny, bunnyImgRight, bunnyImgLeft, drawBunny , bunnyWidth };
+export function getBunnyWidth() {
+    return bunnyWidth;
+}

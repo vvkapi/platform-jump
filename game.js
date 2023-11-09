@@ -1,6 +1,6 @@
 // game.js
 import { board, context } from "./board.js";
-import { bunny, bunnyImgLeft, bunnyImgRight, bunnyWidth } from "./bunny.js";
+import {bunny, bunnyImgLeft, bunnyImgRight, getBunnyWidth} from "./bunny.js";
 import { platformImg } from "./platforms.js";
 import { getVelocityX, setVelocityX } from "./physics.js";
 
@@ -8,15 +8,15 @@ let platformArray = [];
 let platformWidth = 80;
 let platformHeight = 16;
 
-function update() {
+export function update() {
     requestAnimationFrame(update);
     context.clearRect(0, 0, board.width, board.height);
 
     //bunny
     bunny.x += getVelocityX();
     if (bunny.x > board.width) {
-        bunny.x = -bunnyWidth;
-    } else if (bunny.x + bunnyWidth < 0) {
+        bunny.x = -getBunnyWidth();
+    } else if (bunny.x + getBunnyWidth() < 0) {
         bunny.x = board.width;
     }
     context.drawImage(bunny.img, bunny.x, bunny.y, bunny.width, bunny.height);
@@ -33,18 +33,39 @@ function update() {
     }
 }
 
-function moveBunny(e) {
+let isMovingRight = false;
+let isMovingLeft = false;
+
+export function moveBunny(e) {
     if (e.code === "ArrowRight" || e.code === "KeyD") {
-        setVelocityX(5);
+        isMovingRight = e.type === "keydown";
         bunny.img = bunnyImgRight;
     }
     if (e.code === "ArrowLeft" || e.code === "KeyA") {
-        setVelocityX(-5);
+        isMovingLeft = e.type === "keydown";
         bunny.img = bunnyImgLeft;
+    }
+
+    if ((isMovingRight && !isMovingLeft) || (!isMovingRight && isMovingLeft)) {
+        setVelocityX(isMovingRight ? 5 : -5);
+    } else {
+        setVelocityX(0);
     }
 }
 
-function placePlatforms() {
+export function stopBunny(e){
+    if ((e.code === "ArrowRight" || e.code === "KeyD") && isMovingRight) {
+        isMovingRight = false;
+        setVelocityX(isMovingLeft ? -5 : 0);
+    }
+    if ((e.code === "ArrowLeft" || e.code === "KeyA") && isMovingLeft) {
+        isMovingLeft = false;
+        setVelocityX(isMovingRight ? 5 : 0);
+    }
+}
+
+
+export function placePlatforms() {
     platformArray = [];
     let platform = {
         img: platformImg,
@@ -56,5 +77,3 @@ function placePlatforms() {
 
     platformArray.push(platform);
 }
-
-export { update, moveBunny, placePlatforms };
