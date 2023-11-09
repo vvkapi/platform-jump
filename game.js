@@ -1,6 +1,6 @@
 import { board, context } from "./board.js";
 import {bunny, bunnyImgLeft, bunnyImgRight, getBunnyWidth} from "./bunny.js";
-import { platformImg } from "./platforms.js";
+import {platformArray, platformHeight, platformImg, platformWidth} from "./platforms.js";
 import {
     detectCollision,
     getVelocityX,
@@ -13,10 +13,6 @@ import {
 let isMovingRight = false;
 let isMovingLeft = false;
 let isJumping = false;
-
-let platformArray = [];
-let platformWidth = 80;
-let platformHeight = 16; //TODO: Zmien na gettery i settery do platforms.js
 
 export function update() {
     requestAnimationFrame(update);
@@ -41,7 +37,6 @@ export function update() {
         let platform = platformArray[i];
         // Sprawdzenie kolizji z platformą
         if (detectCollision(bunny, platform)) {
-            // Jeśli królik dotyka platformy, zatrzymaj skok
             isJumping = false;
             bunny.y = platform.y - bunny.height; // Ustaw królika na powierzchni platformy
             setVelocityY(0);
@@ -93,7 +88,6 @@ export function stopBunny(e){
 
 
 export function placePlatforms() {
-    platformArray = [];
     let platform = {
         img: platformImg,
         x: board.width / 2,
