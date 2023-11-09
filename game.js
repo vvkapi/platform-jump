@@ -2,11 +2,11 @@
 import { board, context } from "./board.js";
 import {bunny, bunnyImgLeft, bunnyImgRight, getBunnyWidth} from "./bunny.js";
 import { platformImg } from "./platforms.js";
-import { getVelocityX, setVelocityX } from "./physics.js";
+import {detectCollision, getVelocityX, getVelocityY, gravity, setBaseY, setVelocityX, setVelocityY} from "./physics.js";
 
 let platformArray = [];
 let platformWidth = 80;
-let platformHeight = 16;
+let platformHeight = 16; //TODO
 
 export function update() {
     requestAnimationFrame(update);
@@ -19,10 +19,15 @@ export function update() {
     } else if (bunny.x + getBunnyWidth() < 0) {
         bunny.x = board.width;
     }
+    setVelocityY(getVelocityY()+gravity);
+    bunny.y += getVelocityY();
     context.drawImage(bunny.img, bunny.x, bunny.y, bunny.width, bunny.height);
 
     for (let i = 0; i < platformArray.length; i++) {
         let platform = platformArray[i];
+        if (detectCollision(bunny, platform) && getVelocityY() >= 0) {
+            setBaseY();
+        }
         context.drawImage(
             platform.img,
             platform.x,
@@ -71,6 +76,16 @@ export function placePlatforms() {
         img: platformImg,
         x: board.width / 2,
         y: board.height - 50,
+        height: platformHeight,
+        width: platformWidth,
+    };
+
+    platformArray.push(platform);
+
+    platform = {
+        img: platformImg,
+        x: board.width / 2,
+        y: board.height - 175,
         height: platformHeight,
         width: platformWidth,
     };
