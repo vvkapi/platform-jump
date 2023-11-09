@@ -1,12 +1,8 @@
 // game.js
 import { board, context } from "./board.js";
 import {bunny, bunnyImgLeft, bunnyImgRight, getBunnyWidth} from "./bunny.js";
-import { platformImg } from "./platforms.js";
+import {platformArray, platformHeight, platformImg, platformWidth} from "./platforms.js";
 import {detectCollision, getVelocityX, getVelocityY, gravity, setBaseY, setVelocityX, setVelocityY} from "./physics.js";
-
-let platformArray = [];
-let platformWidth = 80;
-let platformHeight = 16; //TODO
 
 export function update() {
     requestAnimationFrame(update);
@@ -71,7 +67,6 @@ export function stopBunny(e){
 
 
 export function placePlatforms() {
-    platformArray = [];
     let platform = {
         img: platformImg,
         x: board.width / 2,
