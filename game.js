@@ -1,41 +1,45 @@
-import {board, boardHeight, boardWidth, context} from "./board.js";
-import {bunny, bunnyImgLeft, bunnyImgRight, bunnyWidth} from "./bunny.js";
-import {platformImg} from "./platforms.js";
+// game.js
+import { board, context } from "./board.js";
+import { bunny, bunnyImgLeft, bunnyImgRight, bunnyWidth } from "./bunny.js";
+import { platformImg } from "./platforms.js";
+import { getVelocityX, setVelocityX } from "./physics.js";
 
-let velocityX = 0;
 let platformArray = [];
 let platformWidth = 80;
 let platformHeight = 16;
 
-function update () {
+function update() {
     requestAnimationFrame(update);
     context.clearRect(0, 0, board.width, board.height);
 
     //bunny
-    bunny.x += velocityX;
-    if (bunny.x > boardWidth) {
+    bunny.x += getVelocityX();
+    if (bunny.x > board.width) {
         bunny.x = -bunnyWidth;
-    }
-    else if (bunny.x + bunnyWidth < 0) {
-        bunny.x = boardWidth;
+    } else if (bunny.x + bunnyWidth < 0) {
+        bunny.x = board.width;
     }
     context.drawImage(bunny.img, bunny.x, bunny.y, bunny.width, bunny.height);
 
-
     for (let i = 0; i < platformArray.length; i++) {
         let platform = platformArray[i];
-        context.drawImage(platform.img, platform.x, platform.y, platform.width, platform.height);
+        context.drawImage(
+            platform.img,
+            platform.x,
+            platform.y,
+            platform.width,
+            platform.height
+        );
     }
-
 }
 
 function moveBunny(e) {
     if (e.code === "ArrowRight" || e.code === "KeyD") {
-        velocityX = 5;
+        setVelocityX(5);
         bunny.img = bunnyImgRight;
     }
     if (e.code === "ArrowLeft" || e.code === "KeyA") {
-        velocityX = -5;
+        setVelocityX(-5);
         bunny.img = bunnyImgLeft;
     }
 }
@@ -43,15 +47,14 @@ function moveBunny(e) {
 function placePlatforms() {
     platformArray = [];
     let platform = {
-        img : platformImg,
-        x : boardWidth/2,
-        y : boardHeight - 50,
-        height : platformHeight,
-        width : platformWidth
-    }
+        img: platformImg,
+        x: board.width / 2,
+        y: board.height - 50,
+        height: platformHeight,
+        width: platformWidth,
+    };
 
     platformArray.push(platform);
 }
 
-
-export { update, moveBunny, placePlatforms }
+export { update, moveBunny, placePlatforms };
