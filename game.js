@@ -5,9 +5,9 @@ import {
     bunnyImgJumpRight,
     bunnyImgLeft,
     bunnyImgRight,
-    getBunnyWidth
+    getBunnyWidth, resetBunny
 } from "./bunny.js";
-import {platformArray, platformHeight, platformImg, platformWidth} from "./platforms.js";
+import {clearPlatforms, platformArray, platformHeight, platformImg, platformWidth} from "./platforms.js";
 import {
     getVelocityX,
     getVelocityY,
@@ -84,7 +84,7 @@ export function update() {
     context.fillText("Score: " + score, 10, 25);
 
     if (gameOver) {
-        context.fillText("Game over. Press Space to restart", getBoardWidth()/7, getBoardHeight()/2 )
+        context.fillText("Game over. Press Space to restart", getBoardWidth() / 10, getBoardHeight() / 2) //TODO: In the middle, regardless of the number of letters
     }
 
     // Drawing a bunny
@@ -115,6 +115,14 @@ export function moveBunny(e) {
         hasJumped = true;
         bunny.img = isMovingRight ? bunnyImgJumpRight : bunnyImgJumpLeft;
     }
+    if (e.code === "Space" && gameOver) {
+        resetBunny();
+        setVelocityX(0);
+        setVelocityY(0);
+        score = -1;
+        gameOver = false;
+        placePlatforms();
+    }
 }
 
 // Function to stop the bunny when the movement key is released
@@ -131,6 +139,7 @@ export function stopBunny(e) {
 
 // Function that places platforms on the board
 export function placePlatforms() {
+    clearPlatforms();
     // Starting platform
     let platform = {
         img: platformImg,
@@ -158,7 +167,7 @@ export function placePlatforms() {
     }
 }
 
-function newPlatform() {
+function newPlatform() { //TODO: Condition so bunny can jump
     let randomX = Math.floor(Math.random() * (board.width - platformWidth));
 
     let platform = {

@@ -36,3 +36,13 @@ export function drawBunny() {
 export function getBunnyWidth() {
     return bunnyWidth;
 }
+
+export function resetBunny() {
+    bunny = {
+        img : bunnyImgRight,
+        x : bunnyX,
+        y : bunnyY,
+        width : bunnyWidth,
+        height : bunnyHeight
+    }
+}
