@@ -10,6 +10,6 @@ export function initializeBoard() {
     context = board.getContext("2d");
 }
 
-export function getBaordHeight() {
+export function getBoardHeight() {
     return boardHeight;
 }

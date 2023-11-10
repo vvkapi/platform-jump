@@ -1,4 +1,4 @@
-import {board, context, getBaordHeight} from "./board.js";
+import {board, context, getBoardHeight} from "./board.js";
 import {
     bunny,
     bunnyImgJumpLeft,
@@ -39,7 +39,7 @@ export function update() {
     // Drawing platforms
     for (let i = 0; i < platformArray.length; i++) {
         let platform = platformArray[i];
-        if (getVelocityY() < 0  && bunny.y < getBaordHeight()*3/4) {
+        if (getVelocityY() < 0 && bunny.y < getBoardHeight() * 3 / 4) {
             platform.y -= -7;
         }
         // Checking collisions with platforms
@@ -63,7 +63,7 @@ export function update() {
         );
 
         // Clear platforms and add new platform
-        while (platformArray.length > 0 && platformArray[0].y >= getBaordHeight()) {
+        while (platformArray.length > 0 && platformArray[0].y >= getBoardHeight()) {
             platformArray.shift();
             newPlatform();
         }
@@ -99,7 +99,6 @@ export function moveBunny(e) {
     }
 }
 
-
 // Function to stop the bunny when the movement key is released
 export function stopBunny(e) {
     if ((e.code === "ArrowRight" || e.code === "KeyD") && isMovingRight) {
@@ -132,7 +131,7 @@ export function placePlatforms() {
         let platform = {
             img: platformImg,
             x: randomX,
-            y: getBaordHeight() - 100*i - 150,
+            y: getBoardHeight() - 100 * i - 150,
             height: platformHeight,
             width: platformWidth,
         };
