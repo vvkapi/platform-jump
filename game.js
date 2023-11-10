@@ -117,7 +117,7 @@ export function placePlatforms() {
     let platform = {
         img: platformImg,
         x: board.width / 2,
-        y: board.height - 50,
+        y: board.height - 65,
         height: platformHeight,
         width: platformWidth,
     };
