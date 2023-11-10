@@ -2,10 +2,9 @@ import {board, context} from "./board.js";
 import {bunny, bunnyImgLeft, bunnyImgRight, getBunnyWidth} from "./bunny.js";
 import {platformArray, platformHeight, platformImg, platformWidth} from "./platforms.js";
 import {
-    detectCollision,
     getVelocityX,
     getVelocityY,
-    gravity,
+    gravity, isBunnyOnPlatform,
     setVelocityX,
     setVelocityY
 } from "./physics.js";
@@ -26,27 +25,19 @@ export function update() {
     } else if (bunny.x + getBunnyWidth() < 0) {
         bunny.x = board.width;
     }
-    // Jump handling
-    if (isJumping) {
-        setVelocityY(getVelocityY() + gravity);
-        bunny.y += getVelocityY();
-    }
-    // Checking collisions with platforms
+    setVelocityY(getVelocityY() + gravity);
+    bunny.y += getVelocityY();
+
+
+    // Drawing platforms
     for (let i = 0; i < platformArray.length; i++) {
         let platform = platformArray[i];
-        if (detectCollision(bunny, platform)) {
+        // Checking collisions with platforms
+        if (isBunnyOnPlatform(bunny, platform) && getVelocityY() >= 0) {
             isJumping = false;
             bunny.y = platform.y - bunny.height; // Positioning the bunny on the surface of the platform
             setVelocityY(0);
         }
-    }
-
-    // Drawing a bunny
-    context.drawImage(bunny.img, bunny.x, bunny.y, bunny.width, bunny.height);
-
-    // Drawing a platform
-    for (let i = 0; i < platformArray.length; i++) {
-        let platform = platformArray[i];
         context.drawImage(
             platform.img,
             platform.x,
@@ -55,6 +46,9 @@ export function update() {
             platform.height
         );
     }
+
+    // Drawing a bunny
+    context.drawImage(bunny.img, bunny.x, bunny.y, bunny.width, bunny.height);
 }
 
 
@@ -98,6 +92,15 @@ export function placePlatforms() {
         img: platformImg,
         x: board.width / 2,
         y: board.height - 50,
+        height: platformHeight,
+        width: platformWidth,
+    };
+
+    platformArray.push(platform);
+    platform = {
+        img: platformImg,
+        x: board.width / 2,
+        y: board.height - 150,
         height: platformHeight,
         width: platformWidth,
     };
