@@ -1,5 +1,12 @@
 import {board, context} from "./board.js";
-import {bunny, bunnyImgLeft, bunnyImgRight, getBunnyWidth} from "./bunny.js";
+import {
+    bunny,
+    bunnyImgJumpLeft,
+    bunnyImgJumpRight,
+    bunnyImgLeft,
+    bunnyImgRight,
+    getBunnyWidth
+} from "./bunny.js";
 import {platformArray, platformHeight, platformImg, platformWidth} from "./platforms.js";
 import {
     getVelocityX,
@@ -12,6 +19,7 @@ import {
 let isMovingRight = false;
 let isMovingLeft = false;
 let isJumping = false;
+let hasJumped = false;
 
 // Function that updates the game state (called at each frame of animation).
 export function update() {
@@ -28,7 +36,6 @@ export function update() {
     setVelocityY(getVelocityY() + gravity);
     bunny.y += getVelocityY();
 
-
     // Drawing platforms
     for (let i = 0; i < platformArray.length; i++) {
         let platform = platformArray[i];
@@ -37,6 +44,12 @@ export function update() {
             isJumping = false;
             bunny.y = platform.y - bunny.height; // Positioning the bunny on the surface of the platform
             setVelocityY(0);
+
+            // Check if the bunny has jumped
+            if (hasJumped) {
+                hasJumped = false;
+                bunny.img = bunnyImgRight;
+            }
         }
         context.drawImage(
             platform.img,
@@ -56,23 +69,27 @@ export function update() {
 export function moveBunny(e) {
     if (e.code === "ArrowRight" || e.code === "KeyD") {
         isMovingRight = e.type === "keydown";
-        bunny.img = bunnyImgRight;
+        bunny.img = isJumping ? bunnyImgJumpRight : bunnyImgRight;
     }
     if (e.code === "ArrowLeft" || e.code === "KeyA") {
         isMovingLeft = e.type === "keydown";
-        bunny.img = bunnyImgLeft;
+        bunny.img = isJumping ? bunnyImgJumpLeft : bunnyImgLeft;
     }
 
-    if ((isMovingRight && !isMovingLeft) || (!isMovingRight && isMovingLeft)) {
+    if (isMovingRight || isMovingLeft) {
         setVelocityX(isMovingRight ? 5 : -5);
     } else {
         setVelocityX(0);
     }
+
     if ((e.code === "Space" || e.code === "ArrowUp") && !isJumping) {
         setVelocityY(-12);
         isJumping = true;
+        hasJumped = true;
+        bunny.img = isMovingRight ? bunnyImgJumpRight : bunnyImgJumpLeft;
     }
 }
+
 
 // Function to stop the bunny when the movement key is released
 export function stopBunny(e) {
