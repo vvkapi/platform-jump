@@ -20,6 +20,7 @@ let isMovingRight = false;
 let isMovingLeft = false;
 let isJumping = false;
 let hasJumped = false;
+let score = 0;
 
 // Function that updates the game state (called at each frame of animation).
 export function update() {
@@ -52,6 +53,7 @@ export function update() {
             if (hasJumped) {
                 hasJumped = false;
                 bunny.img = bunnyImgRight;
+                updateScore();
             }
         }
         context.drawImage(
@@ -68,6 +70,11 @@ export function update() {
             newPlatform();
         }
     }
+
+    // Score
+    context.fillStyle = "black";
+    context.font = "bold 20px monospace";
+    context.fillText("Score: " + score, 10, 25);
 
     // Drawing a bunny
     context.drawImage(bunny.img, bunny.x, bunny.y, bunny.width, bunny.height);
@@ -140,7 +147,7 @@ export function placePlatforms() {
     }
 }
 
-export function newPlatform() {
+function newPlatform() {
     let randomX = Math.floor(Math.random() * (board.width - platformWidth));
 
     let platform = {
@@ -152,4 +159,8 @@ export function newPlatform() {
     };
 
     platformArray.push(platform);
+}
+
+function updateScore() {
+    score += 1;
 }
