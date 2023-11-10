@@ -1,7 +1,7 @@
 export let platformImg;
+export let platformArray = [];
 export let platformWidth = 80;
 export let platformHeight = 16;
-export let platformArray = [];
 
 export function drawPlatforms() {
     platformImg = new Image();

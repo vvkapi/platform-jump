@@ -1,7 +1,7 @@
 import {boardHeight, boardWidth, context} from "./board.js";
 
-export let bunnyWidth = 65;
-let bunnyHeight = 100;
+export let bunnyWidth = 55;
+let bunnyHeight = 80;
 let bunnyX =  boardWidth/2 - bunnyWidth/2;
 let bunnyY = boardHeight*6/7 - bunnyHeight/2;
 export let bunnyImgRight;
