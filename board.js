@@ -13,3 +13,7 @@ export function initializeBoard() {
 export function getBoardHeight() {
     return boardHeight;
 }
+
+export function getBoardWidth() {
+    return boardWidth;
+}

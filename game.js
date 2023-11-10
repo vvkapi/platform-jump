@@ -1,4 +1,4 @@
-import {board, context, getBoardHeight} from "./board.js";
+import {board, context, getBoardHeight, getBoardWidth} from "./board.js";
 import {
     bunny,
     bunnyImgJumpLeft,
@@ -21,10 +21,14 @@ let isMovingLeft = false;
 let isJumping = false;
 let hasJumped = false;
 let score = 0;
+let gameOver = false;
 
 // Function that updates the game state (called at each frame of animation).
 export function update() {
     requestAnimationFrame(update);
+    if (gameOver) {
+        return;
+    }
     context.clearRect(0, 0, board.width, board.height);
 
     // Bunny position update
@@ -36,6 +40,9 @@ export function update() {
     }
     setVelocityY(getVelocityY() + gravity);
     bunny.y += getVelocityY();
+    if (bunny.y > getBoardHeight()) {
+        gameOver = true;
+    }
 
     // Drawing platforms
     for (let i = 0; i < platformArray.length; i++) {
@@ -75,6 +82,10 @@ export function update() {
     context.fillStyle = "black";
     context.font = "bold 20px monospace";
     context.fillText("Score: " + score, 10, 25);
+
+    if (gameOver) {
+        context.fillText("Game over. Press Space to restart", getBoardWidth()/7, getBoardHeight()/2 )
+    }
 
     // Drawing a bunny
     context.drawImage(bunny.img, bunny.x, bunny.y, bunny.width, bunny.height);
