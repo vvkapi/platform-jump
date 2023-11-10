@@ -40,7 +40,7 @@ export function update() {
     for (let i = 0; i < platformArray.length; i++) {
         let platform = platformArray[i];
         if (getVelocityY() < 0  && bunny.y < getBaordHeight()*3/4) {
-            platform.y -= -8;
+            platform.y -= -7;
         }
         // Checking collisions with platforms
         if (isBunnyOnPlatform(bunny, platform) && getVelocityY() >= 0) {
@@ -61,6 +61,12 @@ export function update() {
             platform.width,
             platform.height
         );
+
+        // Clear platforms and add new platform
+        while (platformArray.length > 0 && platformArray[0].y >= getBaordHeight()) {
+            platformArray.shift();
+            newPlatform();
+        }
     }
 
     // Drawing a bunny
@@ -86,7 +92,7 @@ export function moveBunny(e) {
     }
 
     if ((e.code === "Space" || e.code === "ArrowUp") && !isJumping) {
-        setVelocityY(-8);
+        setVelocityY(-7);
         isJumping = true;
         hasJumped = true;
         bunny.img = isMovingRight ? bunnyImgJumpRight : bunnyImgJumpLeft;
