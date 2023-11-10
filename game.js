@@ -1,4 +1,4 @@
-import {board, context} from "./board.js";
+import {board, context, getBaordHeight} from "./board.js";
 import {
     bunny,
     bunnyImgJumpLeft,
@@ -39,6 +39,9 @@ export function update() {
     // Drawing platforms
     for (let i = 0; i < platformArray.length; i++) {
         let platform = platformArray[i];
+        if (getVelocityY() < 0  && bunny.y < getBaordHeight()*3/4) {
+            platform.y -= -8;
+        }
         // Checking collisions with platforms
         if (isBunnyOnPlatform(bunny, platform) && getVelocityY() >= 0) {
             isJumping = false;
@@ -83,7 +86,7 @@ export function moveBunny(e) {
     }
 
     if ((e.code === "Space" || e.code === "ArrowUp") && !isJumping) {
-        setVelocityY(-12);
+        setVelocityY(-8);
         isJumping = true;
         hasJumped = true;
         bunny.img = isMovingRight ? bunnyImgJumpRight : bunnyImgJumpLeft;
@@ -105,6 +108,7 @@ export function stopBunny(e) {
 
 // Function that places platforms on the board
 export function placePlatforms() {
+    // Starting platform
     let platform = {
         img: platformImg,
         x: board.width / 2,
@@ -114,10 +118,30 @@ export function placePlatforms() {
     };
 
     platformArray.push(platform);
-    platform = {
+
+    // Randomly place additional platforms
+    for (let i = 0; i < 6; i++) {
+        let randomX = Math.floor(Math.random() * (board.width - platformWidth));
+
+        let platform = {
+            img: platformImg,
+            x: randomX,
+            y: getBaordHeight() - 100*i - 150,
+            height: platformHeight,
+            width: platformWidth,
+        };
+
+        platformArray.push(platform);
+    }
+}
+
+export function newPlatform() {
+    let randomX = Math.floor(Math.random() * (board.width - platformWidth));
+
+    let platform = {
         img: platformImg,
-        x: board.width / 2,
-        y: board.height - 150,
+        x: randomX,
+        y: -platformHeight,
         height: platformHeight,
         width: platformWidth,
     };
